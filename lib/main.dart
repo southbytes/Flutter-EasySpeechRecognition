@@ -1,9 +1,9 @@
-// Copyright (c)  2024  Xiaomi Corporation
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import './streaming_asr.dart';
-import 'download_model.dart';
+import 'package:easy_speech_recognition/services/model_manager_service.dart';
+import 'package:easy_speech_recognition/services/recognition_service.dart';
+import 'package:easy_speech_recognition/view_models/streaming_view_model.dart';
+import 'package:easy_speech_recognition/routes/app_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,36 +15,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<DownloadModel>(
-            create: (_) => DownloadModel(),
-          )
-        ],
-        child: const MaterialApp(
-          home: MyHomePage(),
-        ));
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
-  final List<Widget> _tabs = [
-    StreamingAsrScreen(),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Real-time speech recognition'),
+      providers: [
+        Provider<ModelManagerService>(
+          create: (_) => ModelManagerService(),
+        ),
+        Provider<RecognitionService>(
+          create: (_) => RecognitionService(),
+          dispose: (_, service) => service.dispose(),
+        ),
+        ProxyProvider2<RecognitionService, ModelManagerService,
+            StreamingViewModel>(
+          update: (_, recognitionService, modelManagerService, __) =>
+              StreamingViewModel(
+            recognitionService: recognitionService,
+            modelManagerService: modelManagerService,
+          ),
+        ),
+      ],
+      child: MaterialApp.router(
+        title: 'Easy Speech Recognition MVVM',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routerConfig: AppRouter.router,
       ),
-      body: _tabs[_currentIndex],
     );
   }
 }
