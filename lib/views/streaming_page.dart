@@ -25,9 +25,6 @@ class _StreamingPageState extends State<StreamingPage> {
       _viewModel.init();
     });
 
-    // Listen to text changes to update controller
-    _viewModel.recognizedText.addListener(_onTextChanged);
-
     // Listen to busy state to show/hide dialog or indicators
     _viewModel.isBusy.addListener(_onBusyChanged);
 
@@ -37,19 +34,10 @@ class _StreamingPageState extends State<StreamingPage> {
 
   @override
   void dispose() {
-    _viewModel.recognizedText.removeListener(_onTextChanged);
     _viewModel.isBusy.removeListener(_onBusyChanged);
     _viewModel.error.removeListener(_onError);
     _controller.dispose();
     super.dispose();
-  }
-
-  void _onTextChanged() {
-    String text = _viewModel.recognizedText.value;
-    _controller.value = TextEditingValue(
-      text: text,
-      selection: TextSelection.collapsed(offset: text.length),
-    );
   }
 
   void _onBusyChanged() {
@@ -58,12 +46,6 @@ class _StreamingPageState extends State<StreamingPage> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          // We can reuse the existing DownloadProgressDialog but we need to wire it
-          // to the ViewModel's progress notifiers.
-          // Since DownloadProgressDialog in the original code might be coupled to Provider<DownloadModel>,
-          // we might need to refactor it or create a wrapper.
-          // For now, let's assume we can use a custom one or the existing one if we provide the data.
-          // However, keeping it simple:
           return ValueListenableBuilder<double>(
               valueListenable: _viewModel.downloadProgress,
               builder: (context, downloadProg, _) {
@@ -94,7 +76,6 @@ class _StreamingPageState extends State<StreamingPage> {
     } else {
       // Close dialog if open
       if (Navigator.canPop(context)) {
-        // This is a bit risky if other dialogs are open, but for this specific flow it's standard
         Navigator.of(context).pop();
       }
     }
@@ -114,91 +95,94 @@ class _StreamingPageState extends State<StreamingPage> {
       appBar: AppBar(
         title: const Text('Real-time Speech Recognition (MVVM)'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 50),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              maxLines: 20,
-              controller: _controller,
-              readOnly: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Recognized text will appear here',
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: SingleChildScrollView(
+                    child: ValueListenableBuilder<String>(
+                      valueListenable: _viewModel.recognizedText,
+                      builder: (context, text, child) {
+                        return Text(
+                          text.isEmpty
+                              ? 'Transcription will appear here...'
+                              : text,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              ValueListenableBuilder<RecordState>(
+                valueListenable: _viewModel.recordState,
+                builder: (context, state, _) {
+                  final isRecording = state != RecordState.stop;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 50.0),
+                    child: Text(
+                      isRecording ? "Recording..." : "Idle",
+                      style: TextStyle(
+                        fontSize: 24,
+                        // fontWeight: FontWeight.bold,
+                        color: isRecording ? Colors.red : Colors.grey,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              // Show download button if needed
+              ValueListenableBuilder<bool>(
+                valueListenable: _viewModel.needsDownloadOrUnzip,
+                builder: (context, needsDownload, child) {
+                  if (needsDownload) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _viewModel.downloadAndSetupModel();
+                        },
+                        child: const Text("Download Model"),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ],
           ),
-          const SizedBox(height: 50),
-          ValueListenableBuilder<bool>(
-            valueListenable: _viewModel.needsDownloadOrUnzip,
-            builder: (context, needsDownload, child) {
-              if (needsDownload) {
-                return ElevatedButton(
-                  onPressed: () {
-                    _viewModel.downloadAndSetupModel();
-                  },
-                  child: const Text("Download Model"),
-                );
-              }
+        ),
+      ),
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: _viewModel.needsDownloadOrUnzip,
+        builder: (context, needsDownload, _) {
+          if (needsDownload) return const SizedBox.shrink();
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _buildRecordStopControl(),
-                  const SizedBox(width: 20),
-                  _buildText(),
-                ],
+          return ValueListenableBuilder<RecordState>(
+            valueListenable: _viewModel.recordState,
+            builder: (context, state, child) {
+              final isRecording = state != RecordState.stop;
+              return FloatingActionButton(
+                onPressed: () {
+                  _viewModel.toggleRecording();
+                },
+                backgroundColor: isRecording ? Colors.red : null,
+                child: Icon(isRecording ? Icons.stop : Icons.mic),
               );
             },
-          ),
-        ],
+          );
+        },
       ),
-    );
-  }
-
-  Widget _buildRecordStopControl() {
-    return ValueListenableBuilder<RecordState>(
-      valueListenable: _viewModel.recordState,
-      builder: (context, state, child) {
-        late Icon icon;
-        late Color color;
-
-        if (state != RecordState.stop) {
-          icon = const Icon(Icons.stop, color: Colors.red, size: 30);
-          color = Colors.red.withValues(alpha: 0.1);
-        } else {
-          final theme = Theme.of(context);
-          icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
-          color = theme.primaryColor.withValues(alpha: 0.1);
-        }
-
-        return ClipOval(
-          child: Material(
-            color: color,
-            child: InkWell(
-              child: SizedBox(width: 56, height: 56, child: icon),
-              onTap: () {
-                _viewModel.toggleRecording();
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildText() {
-    return ValueListenableBuilder<RecordState>(
-      valueListenable: _viewModel.recordState,
-      builder: (context, state, child) {
-        if (state == RecordState.stop) {
-          return const Text("Start");
-        } else {
-          return const Text("Stop");
-        }
-      },
     );
   }
 }
