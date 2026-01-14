@@ -133,7 +133,7 @@ class _StreamingPageState extends State<StreamingPage> {
                     child: Text(
                       isRecording ? "Recording..." : "Idle",
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         // fontWeight: FontWeight.bold,
                         color: isRecording ? Colors.red : Colors.grey,
                       ),
