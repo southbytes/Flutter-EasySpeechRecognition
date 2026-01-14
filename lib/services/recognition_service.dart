@@ -108,7 +108,7 @@ class RecognitionService {
       if (_lastText.isEmpty) {
         textToDisplay = '$_sentenceIndex: $currentText';
       } else {
-        textToDisplay = '$_sentenceIndex: $currentText\n$_lastText';
+        textToDisplay = '$_lastText\n$_sentenceIndex: $currentText';
       }
     }
     recognizedText.value = textToDisplay;
