@@ -90,8 +90,10 @@ class RecognitionService {
           if (_recognizer!.isEndpoint(_stream!)) {
             _recognizer!.reset(_stream!);
             if (text.isNotEmpty) {
+              _updateText(text + ",");
               _lastText = recognizedText.value;
-              _sentenceIndex++;
+              // Do not increment sentence index to continue on same line
+              // _sentenceIndex++;
             }
           }
         },
@@ -108,7 +110,13 @@ class RecognitionService {
       if (_lastText.isEmpty) {
         textToDisplay = '$_sentenceIndex: $currentText';
       } else {
-        textToDisplay = '$_lastText\n$_sentenceIndex: $currentText';
+        // If the last text ends with a comma, we assume it's a continuation
+        // of the same "sentence" (or just stream of thought).
+        if (_lastText.trimRight().endsWith(',')) {
+          textToDisplay = '$_lastText $currentText';
+        } else {
+          textToDisplay = '$_lastText\n$_sentenceIndex: $currentText';
+        }
       }
     }
     recognizedText.value = textToDisplay;
