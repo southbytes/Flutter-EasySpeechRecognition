@@ -1,0 +1,9 @@
+{
+  "appTitle": "实时语音识别 (MVVM)",
+  "downloading": "下载中:",
+  "unzipping": "解压中...",
+  "transcriptionPlaceholder": "转录内容将显示在这里...",
+  "recording": "录音中...",
+  "idle": "空闲",
+  "downloadModel": "下载模型"
+}

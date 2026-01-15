@@ -1,0 +1,9 @@
+{
+  "appTitle": "Real-time Speech Recognition (MVVM)",
+  "downloading": "Downloading:",
+  "unzipping": "Unzipping...",
+  "transcriptionPlaceholder": "Transcription will appear here...",
+  "recording": "Recording...",
+  "idle": "Idle",
+  "downloadModel": "Download Model"
+}

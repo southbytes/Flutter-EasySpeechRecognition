@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_speech_recognition/l10n/app_localizations.dart';
 
 import 'package:record/record.dart';
 import '../view_models/streaming_view_model.dart';
@@ -58,12 +59,12 @@ class _StreamingPageState extends State<StreamingPage> {
                           children: [
                             if (downloadProg < 1.0)
                               Text(
-                                  "Downloading: ${(downloadProg * 100).toStringAsFixed(1)}%"),
+                                  "${AppLocalizations.of(context)!.downloading} ${(downloadProg * 100).toStringAsFixed(1)}%"),
                             if (downloadProg < 1.0)
                               LinearProgressIndicator(value: downloadProg),
                             if (downloadProg >= 1.0 && unzipProg < 1.0)
                               Text(
-                                  "Unzipping... ${(unzipProg * 100).toStringAsFixed(1)}%"),
+                                  "${AppLocalizations.of(context)!.unzipping} ${(unzipProg * 100).toStringAsFixed(1)}%"),
                             if (downloadProg >= 1.0 && unzipProg < 1.0)
                               LinearProgressIndicator(value: unzipProg),
                           ],
@@ -93,7 +94,7 @@ class _StreamingPageState extends State<StreamingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Real-time Speech Recognition (MVVM)'),
+        title: Text(AppLocalizations.of(context)!.appTitle),
       ),
       body: SafeArea(
         child: Padding(
@@ -114,7 +115,8 @@ class _StreamingPageState extends State<StreamingPage> {
                       builder: (context, text, child) {
                         return Text(
                           text.isEmpty
-                              ? 'Transcription will appear here...'
+                              ? AppLocalizations.of(context)!
+                                  .transcriptionPlaceholder
                               : text,
                           style: Theme.of(context).textTheme.bodyLarge,
                         );
@@ -131,7 +133,9 @@ class _StreamingPageState extends State<StreamingPage> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 50.0),
                     child: Text(
-                      isRecording ? "Recording..." : "Idle",
+                      isRecording
+                          ? AppLocalizations.of(context)!.recording
+                          : AppLocalizations.of(context)!.idle,
                       style: TextStyle(
                         fontSize: 20,
                         // fontWeight: FontWeight.bold,
@@ -152,7 +156,8 @@ class _StreamingPageState extends State<StreamingPage> {
                         onPressed: () {
                           _viewModel.downloadAndSetupModel();
                         },
-                        child: const Text("Download Model"),
+                        child:
+                            Text(AppLocalizations.of(context)!.downloadModel),
                       ),
                     );
                   }
