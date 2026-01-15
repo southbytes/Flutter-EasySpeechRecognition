@@ -5,10 +5,10 @@ packages:
     dependency: "direct main"
     description:
       name: archive
-      sha256: "528579c7e4579719f04b21eeeeddfd73a18b31dabc22766893b7d1be7f49b967"
+      sha256: "2fde1607386ab523f7a36bb3e7edb43bd58e6edaf2ffb29d8a6d578b297fdbbd"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.3"
+    version: "4.0.7"
   async:
     dependency: transitive
     description:
@@ -98,10 +98,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: "9e8c3858111da373efc5aa341de011d9bd23e2c5c5e0c62bccf32438e192d7b1"
+      sha256: "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "6.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -121,18 +121,18 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: c5fa45fa502ee880839e3b2152d987c44abae26d064a2376d4aad434cf0f7b15
+      sha256: eff94d2a6fc79fa8b811dde79c7549808c2346037ee107a1121b4a644c745f2a
       url: "https://pub.dev"
     source: hosted
-    version: "12.1.3"
+    version: "17.0.1"
   http:
     dependency: "direct main"
     description:
       name: http
-      sha256: fe7ab022b76f3034adc518fb6ea04a82387620e19977665ea18d30a1cf43442f
+      sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "1.6.0"
   http_parser:
     dependency: transitive
     description:
@@ -177,10 +177,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: cbf8d4b858bb0134ef3ef87841abdf8d63bfc255c266b7bf6b39daa1085c4290
+      sha256: a5e2b223cb7c9c8efdc663ef484fdd95bb243bff242ef5b13e26883547fce9a0
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "6.0.0"
   logging:
     dependency: transitive
     description:
@@ -297,18 +297,18 @@ packages:
     dependency: transitive
     description:
       name: posix
-      sha256: a0117dc2167805aa9125b82eee515cc891819bac2f538c83646d355b16f58b9a
+      sha256: "6323a5b0fa688b6a010df4905a56b00181479e6d10534cecfecede2aa55add61"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.1"
+    version: "6.0.3"
   provider:
     dependency: "direct main"
     description:
       name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      sha256: "4e82183fa20e5ca25703ead7e05de9e4cceed1fbd1eadc1ac3cb6f565a09f272"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.5+1"
   record:
     dependency: "direct main"
     description:
@@ -377,50 +377,50 @@ packages:
     dependency: "direct main"
     description:
       name: sherpa_onnx
-      sha256: "8172df263a65df366743b4bc06fcdcd8c2fc167fb296108b79a2e564179222a3"
+      sha256: "500f70512b68e1ed4dd648a34f156219e1e8992cc7ed6b6ff824130efa6ece9b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.45"
+    version: "1.12.22"
   sherpa_onnx_android:
     dependency: transitive
     description:
       name: sherpa_onnx_android
-      sha256: "7740fd8a41e0cba3ffce8b5d12451956f1497720fd024c840d12d6dd8170df4c"
+      sha256: "89905d60af17830eaee135ee0acb997750b77124ebfdfa9412749b8ea0b26ac5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.45"
+    version: "1.12.22"
   sherpa_onnx_ios:
     dependency: transitive
     description:
       name: sherpa_onnx_ios
-      sha256: b81d03fe376102d4524937e1d396854f3572b2fb68a0c44303b270ce2bf51521
+      sha256: e4f413d5dd08e3108a6826708ee7a166aeeb6e7f938b0c24f7c0e78c92a2876d
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.45"
+    version: "1.12.22"
   sherpa_onnx_linux:
     dependency: transitive
     description:
       name: sherpa_onnx_linux
-      sha256: b5726beecc0131a74844b70e8d7ee9f87bb8cc0c3d2df7f28383a8d8b8312c65
+      sha256: "4be9146f9d396f1d4e1664d877986d6c6e0e0a919335b9dcefd92a2f6f203595"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.45"
+    version: "1.12.22"
   sherpa_onnx_macos:
     dependency: transitive
     description:
       name: sherpa_onnx_macos
-      sha256: "173e9567253ebb0de7298c415576ba60c341acfe8f9d7fd82c4dd1b69cb2cdca"
+      sha256: "6b56134965fb0a640bd6fff2a6f897fb7f1dc0399f6ac71490d65ea0ee467470"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.45"
+    version: "1.12.22"
   sherpa_onnx_windows:
     dependency: transitive
     description:
       name: sherpa_onnx_windows
-      sha256: f94458dd9bd006dfa60f689ab11da6d07cebf60afa97a1a6c7fd6a8d310cb0e2
+      sha256: dffd40bec0226a6d55aff57b455c97f1a1f83e12ccf34a0ff0ac7b238e401508
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.45"
+    version: "1.12.22"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -494,10 +494,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: "9d06212b1362abc2f0f0d78e6f09f726608c74e3b9462e8368bb03314aa8d603"
+      sha256: f6a7e5c4835bb4e3026a04793a4199ca2d14c739ec378fdfe23fc8075d0439f8
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.1"
+    version: "6.3.2"
   url_launcher_android:
     dependency: transitive
     description:
@@ -595,5 +595,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=3.8.0-0 <4.0.0"
-  flutter: ">=3.24.0"
+  dart: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
